@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quotes</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Secular+One&display=swap");
+      @import url('https://fonts.googleapis.com/css2?family=Vujahday+Script&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@600&display=swap');
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #b74214;
+        background-image: url("data:image/svg+xml,%3Csvg width='80' height='84' viewBox='0 0 42 44' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='Page-1' fill='none' fill-rule='evenodd'%3E%3Cg id='brick-wall' fill='%23363332' fill-opacity='0.46'%3E%3Cpath d='M0 0h42v44H0V0zm1 1h40v20H1V1zM0 23h20v20H0V23zm22 0h20v20H22V23z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      }
+      .quoteContainer {
+        width: 60%;
+        background-color: rgba(255, 255, 255, 0.2);
+        font-family: 'Baloo Tamma 2', cursive;
+        backdrop-filter: blur(4px);
+        font-size: 24px;
+        font-weight: 530;
+        border-radius: 20px;
+        box-shadow: 0px 6px 11px -1px #3c3c3c;
+        /* color:#393737; */
+        color: whitesmoke;
+        text-shadow: 0px 1px 9px #c1c0bb;
+        text-align: center;
+        line-height: 3rem;
+        transition: 500ms;
+      }
+      .quoteContainer:hover{
+          transform: scale(1.01);
+      }
+      #quote::before {
+        content: '"';
+        display: inline-block;
+        font-family: "secular one", sans-serif;
+        font-size: 80px;
+        transform: rotateY(180deg);
+      }
+      #quote::after {
+        content: '"';
+        font-family: "secular one", sans-serif;
+        font-size: 80px;
+        transform: translateY(10px);
+        display: inline-block;
+        margin-left: 9px;
+      }
+      #quote{
+        margin: 2rem 1.5rem;
+      }
+      #whatsapp {
+        float: left;
+        position: absolute;
+        left: 10px;
+        bottom: 10px;
+        background: transparent;
+border: 1px solid black;
+border-radius: 9px;
+padding: 5px 10px;
+box-shadow: -1px 2px 9px 3px whitesmoke;
+      }
+      #newQuote {
+        float: right;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        background: transparent;
+border: 1px solid black;
+border-radius: 9px;
+padding: 5px 10px;
+box-shadow: -1px 2px 9px 3px whitesmoke;
+      }
+      #author{
+          font-style: italic;
+          font-family: 'Vujahday Script', cursive;
+          font-weight: 700;
+          color: whitesmoke;
+          margin-bottom: 3rem;
+      }
+      #whatsapp:hover, #newQuote:hover{
+          background-color: whitesmoke;
+      }
+      @media screen and (max-width:800px) {
+          .quoteContainer{
+              width:96%;
+          }
+      }
+
+
+    </style>
+  </head>
+  <body onload="getQuote()">
+    <div class="quoteContainer">
+      <h1 id="quote" class="quote">
+      </h1>
+      <p id="author" class="author"></p>
+      <button id="whatsapp">Whatsapp</button>
+      <button id="newQuote" onclick="getQuote()">New Quote</button>
+    </div>
+    <script>
+      const apiUrl ="http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+      async function getQuote(){
+          try{
+          const response = await fetch(proxyUrl + apiUrl);
+          const jsonData = await response.json();
+          console.log(jsonData);
+          let quote = document.getElementById('quote');
+          let author = document.getElementById('author');
+          quote.innerText = jsonData.quoteText;
+          author.innerText = '- ' +jsonData.quoteAuthor;
+          }catch(error){
+              console.log(error);
+            //   getQuote();
+          }
+      }
+    </script>
+  </body>
+</html>
