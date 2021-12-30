@@ -7,8 +7,8 @@
     <title>Quotes</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Secular+One&display=swap");
-      @import url('https://fonts.googleapis.com/css2?family=Vujahday+Script&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@600&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Vujahday+Script&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Baloo+Tamma+2:wght@600&display=swap");
       body {
         display: flex;
         justify-content: center;
@@ -20,7 +20,7 @@
       .quoteContainer {
         width: 60%;
         background-color: rgba(255, 255, 255, 0.2);
-        font-family: 'Baloo Tamma 2', cursive;
+        font-family: "Baloo Tamma 2", cursive;
         backdrop-filter: blur(4px);
         font-size: 24px;
         font-weight: 530;
@@ -33,8 +33,8 @@
         line-height: 3rem;
         transition: 500ms;
       }
-      .quoteContainer:hover{
-          transform: scale(1.01);
+      .quoteContainer:hover {
+        transform: scale(1.01);
       }
       #quote::before {
         content: '"';
@@ -51,7 +51,7 @@
         display: inline-block;
         margin-left: 9px;
       }
-      #quote{
+      #quote {
         margin: 2rem 1.5rem;
       }
       #whatsapp {
@@ -59,11 +59,15 @@
         position: absolute;
         left: 10px;
         bottom: 10px;
-        background: transparent;
-border: 1px solid black;
-border-radius: 9px;
-padding: 5px 10px;
-box-shadow: -1px 2px 9px 3px whitesmoke;
+        background: green;
+        color: whitesmoke;
+        border: 1px solid black;
+        border-radius: 9px;
+        padding: 5px 10px;
+        box-shadow: -1px 2px 9px 3px whitesmoke;
+      }
+      #whatsapp a{  
+        text-decoration: none;
       }
       #newQuote {
         float: right;
@@ -71,54 +75,60 @@ box-shadow: -1px 2px 9px 3px whitesmoke;
         right: 10px;
         bottom: 10px;
         background: transparent;
-border: 1px solid black;
-border-radius: 9px;
-padding: 5px 10px;
-box-shadow: -1px 2px 9px 3px whitesmoke;
+        border: 1px solid black;
+        border-radius: 9px;
+        padding: 5px 10px;
+        box-shadow: -1px 2px 9px 3px whitesmoke;
       }
-      #author{
-          font-style: italic;
-          font-family: 'Vujahday Script', cursive;
-          font-weight: 700;
-          color: whitesmoke;
-          margin-bottom: 3rem;
+      #author {
+        font-style: italic;
+        font-family: "Vujahday Script", cursive;
+        font-weight: 700;
+        color: whitesmoke;
+        margin-bottom: 3rem;
       }
-      #whatsapp:hover, #newQuote:hover{
-          background-color: whitesmoke;
+      #whatsapp:hover,
+      #newQuote:hover {
+        background-color: whitesmoke;
       }
-      @media screen and (max-width:800px) {
-          .quoteContainer{
-              width:96%;
-          }
+      @media screen and (max-width: 800px) {
+        .quoteContainer {
+          width: 96%;
+          font-size: 12px;
+          font-weight: 511;
+        }
+        #quote::before,#quote::after{
+          font-size: 40px;
+        }
       }
-
-
     </style>
   </head>
   <body onload="getQuote()">
     <div class="quoteContainer">
-      <h1 id="quote" class="quote">
-      </h1>
+      <h1 id="quote" class="quote"></h1>
       <p id="author" class="author"></p>
       <button id="whatsapp">Whatsapp</button>
       <button id="newQuote" onclick="getQuote()">New Quote</button>
     </div>
     <script>
-      const apiUrl ="http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
+      const apiUrl =
+        "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en";
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-      async function getQuote(){
-          try{
+      async function getQuote() {
+        try {
           const response = await fetch(proxyUrl + apiUrl);
           const jsonData = await response.json();
+          const whatsapp = document.getElementById('whatsapp');
           console.log(jsonData);
-          let quote = document.getElementById('quote');
-          let author = document.getElementById('author');
+          let quote = document.getElementById("quote");
+          let author = document.getElementById("author");
           quote.innerText = jsonData.quoteText;
-          author.innerText = '- ' +jsonData.quoteAuthor;
-          }catch(error){
-              console.log(error);
-            //   getQuote();
-          }
+          author.innerText = "- " + jsonData.quoteAuthor;
+          whatsapp.innerHTML =`<a href='whatsapp://send?text=${jsonData.quoteText}\r\n${jsonData.quoteAuthor}'>Whatsapp </a>`;
+        } catch (error) {
+          console.log(error);
+          //   getQuote();
+        }
       }
     </script>
   </body>
